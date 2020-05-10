@@ -1,6 +1,6 @@
 clear; clc; close all
 
-[img, ~, alpha] = imread('chromium.png');
+[img, ~, alpha] = imread('../chromium.png');
 imshow(img);
 
 % split the image into chunks
