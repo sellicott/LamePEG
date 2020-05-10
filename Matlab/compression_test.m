@@ -1,7 +1,9 @@
-clear; clc; close all
+clear; clc;
 
-[img, ~, alpha] = imread('../chromium.png');
+[img, ~, alpha] = imread('../eeschema.png');
+figure(1)
 imshow(img);
+quality = 0.50;
 
 % split the image into chunks
 block_size = [8, 8];
@@ -27,10 +29,10 @@ for ii = 0:(X/block_size(1) -1)
     
     % compress the image
     img_dct = dct2_img(img_block, block_size);
-    quant_img = jpeg_normalize(img_dct);
+    quant_img = jpeg_normalize(img_dct, quality);
 
     % uncompress the image
-    denorm_img = jpeg_denormalize(quant_img);
+    denorm_img = jpeg_denormalize(quant_img, quality);
     idct_block = idct2_img(denorm_img, block_size);
     
     % save some data for later
@@ -41,5 +43,5 @@ end
 
 %figure
 %imshow(compressed_img)
-figure
+figure(2)
 imshow(to_uint8(decompressed_img))
