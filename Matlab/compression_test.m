@@ -30,7 +30,7 @@ for ii = 0:(X/block_size(1) -1)
     % compress the image
     img_dct = dct2_img(img_block, block_size);
     quant_img = jpeg_normalize(img_dct, quality);
-    bin_out = symbol_encoder(img_dct, 1);
+    bin_out = symbol_encoder(quant_img, 1);
 
     % uncompress the image
     denorm_img = jpeg_denormalize(quant_img, quality);
