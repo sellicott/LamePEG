@@ -17,6 +17,7 @@ decompressed_img = zeros(size(img));
 for ii = 0:(X/block_size(1) -1)
   for jj = 0:(Y/block_size(2) -1)
     % Find the area of the image we are interested in
+    % Curse you 1 based indexing!!!
     start_x = ii*block_size(1) + 1;
     end_x = start_x + block_size(1) - 1;
     start_y = jj*block_size(2) + 1;
