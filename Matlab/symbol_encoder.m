@@ -64,8 +64,23 @@ function bin_out = symbol_encoder(img, codes)
   % now do run length encoding
   % will be in the form of {preceding zeros, number of bits, value} 
   zero_cnt = 0;
+  out_idx = 1;
+  output = [];
   for ii = 1:64
-    temp_buff(ii);
+    val = temp_buff(ii)
+    if(val != 0)
+      output(out_idx).zeros = zero_cnt;
+      output(out_idx).num_bits = ceil(log2(abs(val)));
+      output(out_idx).value = val;
+
+      zero_cnt = 0;
+      out_idx = out_idx + 1;
+    else
+      zero_cnt = zero_cnt + 1;
+    end
   end
+  output(out_idx).zeros = 0;
+  output(out_idx).num_bits = 0;
+  output(out_idx).value = 0;
 
 end
