@@ -3,7 +3,7 @@ clear; clc;
 [img, ~, alpha] = imread('../eeschema.png');
 % figure(1)
 % imshow(img);
-quality = 0.5;
+quality = 0.1;
 
 % split the image into chunks
 block_size = [8, 8];

@@ -27,7 +27,7 @@ function bin_out = symbol_encoder(img, codes)
     % At the left of the image. Turn around
     % (every now then I get a little bit tired
     % of listening to the sound of my tears)
-    elseif x == 1 && !up
+    elseif x == 1 && ~up
       inc = 1;
       y = y+1;
       up = true;
@@ -50,7 +50,7 @@ function bin_out = symbol_encoder(img, codes)
       y = y+1;
       up = false;
     % At the bottom of the image. Turn around
-    elseif y == 8 && !up
+    elseif y == 8 && ~up
       inc = 1;
       x = x+1;
       up = true;
@@ -67,8 +67,8 @@ function bin_out = symbol_encoder(img, codes)
   out_idx = 1;
   output = [];
   for ii = 1:64
-    val = temp_buff(ii)
-    if(val != 0)
+    val = temp_buff(ii);
+    if(val ~= 0)
       output(out_idx).zeros = zero_cnt;
       output(out_idx).num_bits = ceil(log2(abs(val)));
       output(out_idx).value = val;
@@ -82,5 +82,17 @@ function bin_out = symbol_encoder(img, codes)
   output(out_idx).zeros = 0;
   output(out_idx).num_bits = 0;
   output(out_idx).value = 0;
+
+  % convert encoded data to a binary vector using run length coding
+  % I'm just using the worst case lengths for the preceeding zeros, and
+  % number of bits values. (log2(64) -> 6 bits)
+  bin_out = [];
+  for ii = 1:length(output)
+    max_len = log2(8*8);
+    zeros_bin = dec2bin(output(ii).zeros, max_len);
+    num_bits_bin = dec2bin(output(ii).num_bits, max_len);
+    val_bin = dec2bin(output(ii).value, output(ii).num_bits);
+    bin_out = strcat(bin_out, zeros_bin, num_bits_bin, val_bin);
+  end
 
 end
