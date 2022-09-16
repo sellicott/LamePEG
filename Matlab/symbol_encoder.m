@@ -70,6 +70,9 @@ function bin_out = symbol_encoder(img, codes)
     val = temp_buff(ii);
     if(val ~= 0)
       output(out_idx).zeros = zero_cnt;
+      if (abs(val) < 1 && abs(val) > 0)
+          val = sign(val);
+      end
       output(out_idx).num_bits = ceil(log2(abs(val)));
       output(out_idx).value = val;
 
@@ -86,8 +89,8 @@ function bin_out = symbol_encoder(img, codes)
   % convert encoded data to a binary vector using run length coding
   % I'm just using the worst case lengths for the preceeding zeros, and
   % number of bits values. (log2(64) -> 6 bits)
-  bin_out = [];
-  for ii = 1:length(output)
+  bin_out = "";
+  for ii = 1:length(output)-1
     max_len = log2(8*8);
     zeros_bin = dec2bin(output(ii).zeros, max_len);
     num_bits_bin = dec2bin(output(ii).num_bits, max_len);
